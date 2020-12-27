@@ -1,0 +1,11 @@
+
+create database movies_app;
+
+use movies_app;
+
+select * from movie m ;
+
+insert into movie(description, length, movie_category, title)  values ('movie description goes here', 100,  'Horror', 'Friday 13th');
+insert into movie(description, length, movie_category, title)  values ('movie description goes here', 120,  'Drama', 'Apocalypto');
+insert into movie(description, length, movie_category, title)  values ('movie description goes here', 200,  'SF', 'Mr Nobody');
+insert into movie(description, length, movie_category, title)  values ('short description', 200,  'Horror', 'Hereditary');
