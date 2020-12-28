@@ -8,6 +8,6 @@ public interface IMovieService {
 
     List<Movie> getAllMovies();
 
-
+    List<Movie> findAllBySpecification(String search);
 
 }

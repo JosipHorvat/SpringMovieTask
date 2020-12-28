@@ -18,4 +18,9 @@ public class MovieService implements IMovieService{
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
+
+    @Override
+    public List<Movie> findAllBySpecification(String search) {
+        return null;
+    }
 }
