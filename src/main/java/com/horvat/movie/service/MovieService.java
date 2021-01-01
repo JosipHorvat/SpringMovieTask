@@ -1,6 +1,7 @@
 package com.horvat.movie.service;
 
 import com.horvat.movie.model.Movie;
+import com.horvat.movie.model.MovieDBRestResponse;
 import com.horvat.movie.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,6 +16,9 @@ public class MovieService implements IMovieService {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private INetMovieService netMovieService;
 
 
     @Override
@@ -34,19 +38,31 @@ public class MovieService implements IMovieService {
         while (matcher.find()) {
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
         }
-          /*
-         PATERNA
-        Specification<Movie> movieSpecification = builder
-                .with("name", ":", "Friday 13")
-                .with("movieCategory" ,":","Drama")
-                .with("length", ":", "180")
-                .build();
-         */
+
 
         Specification<Movie> movieSpec = builder.build();
 
+        List<Movie> movies = movieRepository.findAll(movieSpec);
 
-        return movieRepository.findAll(movieSpec);
+        if(movies.isEmpty()){
+           List<MovieDBRestResponse> netDBMovie = netMovieService.findAllBySpecification(search);
+
+            for (MovieDBRestResponse movieDBRestResponse : netDBMovie) {
+
+                Movie movie =  new Movie();
+                movie.setDescription(movieDBRestResponse.getOverview());
+               // movie.setId(movieDBRestResponse.getId());
+                movie.setTitle(movieDBRestResponse.getOriginalTitle());
+
+                movies.add(movie);
+
+            }
+
+            movieRepository.saveAll(movies);
+
+        }
+
+        return movies;
         }
 
 

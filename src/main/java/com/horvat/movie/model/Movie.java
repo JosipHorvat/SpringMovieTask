@@ -19,6 +19,7 @@ public class Movie implements Serializable {
     private String title;
     private String movieCategory;
     private Integer length;
+    @Column(length = 2000)
     private String description;
 
 
