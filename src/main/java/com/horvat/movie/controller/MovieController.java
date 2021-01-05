@@ -42,20 +42,18 @@ public class MovieController {
 
 
     @GetMapping("/movie/")
-    // EXAMPLE FOR POSTMAN:
     // localhost:8080/api/movie/?search=title:
     //localhost:8080/api/movie/?search=movieCategory:Horror
-    //localhost:8080/api/movie/?search=length:100,movieCategory:Horror
    public ResponseEntity<List<Movie>> getMovieBySearchCriteria(@RequestParam String search){
 
         List<Movie> list = iMovieService.findAllBySpecification(search);
         return new ResponseEntity<List<Movie>>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/netmovie")
-    public List<MovieDBRestResponse> getMovies(){
+    @GetMapping("/netmovie/")
+    public List<MovieDBRestResponse> getMovies(@RequestParam String title){
 
-        String url = "https://api.themoviedb.org/3/search/movie?api_key=c08268c8d5f9f7a1a056cc4a0657af09&query=Jack+Reacher";
+        String url = "https://api.themoviedb.org/3/search/movie?api_key=c08268c8d5f9f7a1a056cc4a0657af09&query="+title+"";
         DBRestResponse dbRestResponse = restTemplate.getForObject(url, DBRestResponse.class);
         return dbRestResponse.getResults();
     }

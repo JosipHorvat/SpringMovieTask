@@ -44,16 +44,14 @@ public class MovieService implements IMovieService {
 
         List<Movie> movies = movieRepository.findAll(movieSpec);
 
-        if(movies.isEmpty()){
-           List<MovieDBRestResponse> netDBMovie = netMovieService.findAllBySpecification(search);
+        if (movies.isEmpty()) {
+            List<MovieDBRestResponse> netDBMovie = netMovieService.findAllBySpecification(search);
 
             for (MovieDBRestResponse movieDBRestResponse : netDBMovie) {
 
-                Movie movie =  new Movie();
+                Movie movie = new Movie();
                 movie.setDescription(movieDBRestResponse.getOverview());
-               // movie.setId(movieDBRestResponse.getId());
                 movie.setTitle(movieDBRestResponse.getOriginalTitle());
-
                 movies.add(movie);
 
             }
@@ -63,8 +61,5 @@ public class MovieService implements IMovieService {
         }
 
         return movies;
-        }
-
-
     }
-
+}
