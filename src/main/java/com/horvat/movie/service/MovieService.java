@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService implements IMovieService {
@@ -44,7 +47,8 @@ public class MovieService implements IMovieService {
 
         List<Movie> movies = movieRepository.findAll(movieSpec);
 
-        if (movies.isEmpty()) {
+
+        if (movies.isEmpty() || movies.equals(new Movie().getId()) ) {
             List<MovieDBRestResponse> netDBMovie = netMovieService.findAllBySpecification(search);
 
             for (MovieDBRestResponse movieDBRestResponse : netDBMovie) {
@@ -52,13 +56,21 @@ public class MovieService implements IMovieService {
                 Movie movie = new Movie();
                 movie.setDescription(movieDBRestResponse.getOverview());
                 movie.setTitle(movieDBRestResponse.getOriginalTitle());
+                movie.setReleaseDate(movieDBRestResponse.getReleaseDate());
+                movie.setVoteAverage(movieDBRestResponse.getVoteAverage());
+                movie.setAdult(movieDBRestResponse.getAdult());
+                movie.setOriginalLanguage(movieDBRestResponse.getOriginalLanguage());
                 movies.add(movie);
 
             }
 
+
+
+
             movieRepository.saveAll(movies);
 
         }
+
 
         return movies;
     }

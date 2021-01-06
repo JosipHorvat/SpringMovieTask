@@ -29,6 +29,8 @@ public class MovieDBRestResponse implements Serializable {
     @JsonProperty("original_language")
     private String originalLanguage;
     private String title;
+    @JsonProperty("vote_average")
+    private Double voteAverage;
 
 
     public MovieDBRestResponse() {
@@ -99,6 +101,13 @@ public class MovieDBRestResponse implements Serializable {
         this.releaseDate = releaseDate;
     }
 
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
 
     @Override
     public String toString() {
@@ -111,7 +120,10 @@ public class MovieDBRestResponse implements Serializable {
                 ", originalTitle='" + originalTitle + '\'' +
                 ", originalLanguage='" + originalLanguage + '\'' +
                 ", title='" + title + '\'' +
-
+                ", voteAverage=" + voteAverage +
                 '}';
     }
+
+
+
 }
